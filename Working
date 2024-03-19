@@ -1,4 +1,8 @@
 import os 
+#opens a file in a non-separated format
+#the r bfore "Filepath" prevents a syntax error where it can't decode bytes (?)
+#this only works if files are saved under desktop as "documents" is not in the current working directory and I can't get it to change
+#apparently replacing all \ with \\ would solve this but that seems long ya know
 f = open(r"filepath", 'r') 
 content = f.read() 
 print(content)
