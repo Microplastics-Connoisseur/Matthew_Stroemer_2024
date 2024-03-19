@@ -6,3 +6,6 @@ import os
 f = open(r"filepath", 'r') 
 content = f.read() 
 print(content)
+df = pd.read_csv(r"filepath", index_col=0)
+df
+# creates a dataframe even out of .txt files, albeit nont a very practical one as lentgth of data types (i.e. sequences)>>>category names 
