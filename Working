@@ -1,0 +1,4 @@
+import os 
+f = open(r"filepath", 'r') 
+content = f.read() 
+print(content)
