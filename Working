@@ -41,3 +41,10 @@ len(dna_seqs[0])
 #Create an array based on this with all zeros 
 dna_array = np.zeros((1, 2, 1456))
 dna_array
+
+#compare the two sequences with threshold=np.inf to show the entire array 
+seq1_array = np.array(list(dna_seqs[0]))
+seq2_array = np.array(list(dna_seqs[1]))
+comparison_array = (seq1_array == seq2_array).astype(int)
+np.set_printoptions(threshold=np.inf)
+print(comparison_array)
