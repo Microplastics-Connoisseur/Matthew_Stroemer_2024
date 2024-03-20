@@ -48,3 +48,24 @@ seq2_array = np.array(list(dna_seqs[1]))
 comparison_array = (seq1_array == seq2_array).astype(int)
 np.set_printoptions(threshold=np.inf)
 print(comparison_array)
+
+#we then will identify mutations and the type if present 
+def find_mutation_type(WildType_Sequence, Mutant_Sequence):
+    if len(WildType_Sequence) == len(Mutant_Sequence):
+        if WildType_Sequence == Mutant_Sequence:
+            return "No mutation"
+        else:
+            return "Substitution"
+    elif len(WildType_Sequence) < len(Mutant_Sequence):
+        if Mutant_Sequence.startswith(WildType_Sequence):
+            return "Insertion"
+        else:
+            return "Complex mutation (insertion and/or substitution)"
+    else:
+        if WildType_Sequence.startswith(Mutant_Sequence):
+            return "Deletion"
+        else:
+            return "Complex mutation (deletion and/or substitution)"
+        
+mutation_type = find_mutation_type(WildType_Sequence, Mutant_Sequence)
+print("Mutation type:", mutation_type)
