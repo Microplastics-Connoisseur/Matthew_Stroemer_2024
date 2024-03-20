@@ -33,3 +33,6 @@ print(sliced_rows)
 
 #Select sequences from the dict and create them as variables 
 WildType_Sequence, Mutant_Sequence = data_dict['WildType.Sequence'], data_dict['Mutant.Sequence']
+#Combine these two variables into a list/s (?) which can be called as one 
+dna_seqs = [WildType_Sequence, Mutant_Sequence]
+print(dna_seqs)
