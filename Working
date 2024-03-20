@@ -1,4 +1,5 @@
 import pandas 
+import numpy as np
 data_dict = {}
 
 # Open the file, preface file path with r as \users\ is read as code and r forces it to be read explicitly
