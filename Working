@@ -69,3 +69,6 @@ def find_mutation_type(WildType_Sequence, Mutant_Sequence):
         
 mutation_type = find_mutation_type(WildType_Sequence, Mutant_Sequence)
 print("Mutation type:", mutation_type)
+
+#trying to extract numeric data from selected cells in the dataframe, but this give the keys alongside the values and doesn't allow me to calculate a mean 
+df[['Value']].iloc[[3, 4, 5]].mean(axis=1)
