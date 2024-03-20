@@ -1,13 +1,34 @@
-import os 
-import pandas as pd 
-import numpy as np
-#opens a file in a non-separated format
-#the r bfore "Filepath" prevents a syntax error where it can't decode bytes (?)
-#this only works if files are saved under desktop as "documents" is not in the current working directory and I can't get it to change
-#apparently replacing all \ with \\ would solve this but that seems long ya know
-f = open(r"filepath", 'r') 
-content = f.read() 
-print(content)
-df = pd.read_csv(r"filepath", index_col=0)
-df
-# creates a dataframe even out of .txt files, albeit nont a very practical one as lentgth of data types (i.e. sequences)>>>category names 
+import pandas 
+data_dict = {}
+
+# Open the file, preface file path with r as \users\ is read as code and r forces it to be read explicitly
+with open(r"C:\Users\t09ms23\Desktop\BT5511 Files\Ah3_data_file.txt", 'r') as file:
+    # Read the first line containing keys
+    keys_line = file.readline().strip().split()
+
+    # Read the second line containing values
+    values_line = file.readline().strip().split()
+
+    # Ensure the number of keys matches the number of values
+    if len(keys_line) == len(values_line):
+        # Combine keys and values into dictionary
+        for key, value in zip(keys_line, values_line):
+            data_dict[key.strip()] = value.strip()
+    else:
+        print("Error: Number of keys does not match number of values.")
+
+# Format the output as desired
+output = ' '.join([f"{key}[{data_dict[key]}]" for key in data_dict])
+print(output)
+
+df = pandas.DataFrame.from_dict(data_dict, orient='index', columns=['Value'])
+df.index.name = 'Key'
+print(df)
+
+keys_to_slice = ['WildType.Sequence', 'Mutant.Sequence']
+sliced_dict = {}
+for key in keys_to_slice: 
+    if key in data_dict: 
+        sliced_dict[key] = data_dict[key]
+        
+print(sliced_dict)
