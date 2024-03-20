@@ -49,7 +49,7 @@ comparison_array = (seq1_array == seq2_array).astype(int)
 np.set_printoptions(threshold=np.inf)
 print(comparison_array)
 
-#we then will identify mutations and the type if present 
+#we then will identify mutations and the type if present. It stores this type of mutation as the variable mutation_type 
 def find_mutation_type(WildType_Sequence, Mutant_Sequence):
     if len(WildType_Sequence) == len(Mutant_Sequence):
         if WildType_Sequence == Mutant_Sequence:
