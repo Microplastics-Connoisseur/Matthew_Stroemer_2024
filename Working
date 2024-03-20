@@ -36,3 +36,8 @@ WildType_Sequence, Mutant_Sequence = data_dict['WildType.Sequence'], data_dict['
 #Combine these two variables into a list/s (?) which can be called as one 
 dna_seqs = [WildType_Sequence, Mutant_Sequence]
 print(dna_seqs)
+#Check the length of the sequence 
+len(dna_seqs[0]) 
+#Create an array based on this with all zeros 
+dna_array = np.zeros((1, 2, 1456))
+dna_array
