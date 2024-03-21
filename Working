@@ -144,3 +144,25 @@ print(changes_dict)
 
 dfchanges = pandas.DataFrame.from_dict(changes_dict, orient='index')
 print(dfchanges)
+
+#######################################################################
+#set 2
+#instead of doing this manually one at a time, lets combine all the files into one dataframe
+#first we import glob (?) and create an empty dict
+import pandas 
+import glob 
+pandas.set_option('display.max_rows', None)
+pandas.set_option('display.max_columns', None)
+data_dict = {}
+#next we combine all the files into one dict
+txt_files = glob.glob(r"C:\Users\t09ms23\Desktop\BT5511 Files\*.txt")
+for file in txt_files: 
+    df = pandas.read_csv(file, delimiter=' ')
+    file_name = file.split('\\')[-1].split('.')[0]
+    data_dict[file_name] = df
+print(data_dict)
+#then we import this dict into a data frame 
+combined_df = pandas.concat(data_dict, keys=data_dict.keys())
+print(combined_df)
+#######################################################################
+
