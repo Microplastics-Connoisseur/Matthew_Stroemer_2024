@@ -140,10 +140,12 @@ print(Change_CellViability)
 changes_dict = {'Mutation Type': mutation_type, 'Change in mRNA expression': Change_mRNA, 'Change in protein expression': Change_Protein, 'Change in cell viability': Change_CellViability}
 print(changes_dict)
 
-#we convert our new dict "changes_dict" into a new dataframe and specify it with a different name
+#we convert our new dict "changes_dict" into a new dataframe and specify it with a different name, using the gene bane from the first data frame as the neame of the column
+gene_name = df.loc["Gene", "Value"]
+df_changes = pandas.DataFrame.from_dict(changes_dict, orient='index')
+df_changes.columns = [gene_name]
 
-dfchanges = pandas.DataFrame.from_dict(changes_dict, orient='index')
-print(dfchanges)
+print(df_changes)
 
 #######################################################################
 #set 2
