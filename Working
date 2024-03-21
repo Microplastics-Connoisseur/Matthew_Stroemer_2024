@@ -139,3 +139,8 @@ print(Change_CellViability)
 #We then create a new dictionary for these changes 
 changes_dict = {'Change in mRNA expression': Change_mRNA, 'Change in protein expression': Change_Protein, 'Change in cell viability': Change_CellViability}
 print(changes_dict)
+
+#we convert our new dict "changes_dict" into a new dataframe and specify it with a different name
+
+dfchanges = pandas.DataFrame.from_dict(changes_dict, orient='index')
+print(dfchanges)
