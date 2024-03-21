@@ -70,6 +70,8 @@ def find_mutation_type(WildType_Sequence, Mutant_Sequence):
 mutation_type = find_mutation_type(WildType_Sequence, Mutant_Sequence)
 print("Mutation type:", mutation_type)
 
+#the following averages the mRNA expression for wild type and mutant, saving them as variables and then subtracting the latter from the former andsaving it as the variable Change_mRNA
+filtered_rows = df[df.index.str.contains("mRNA.Expression.WT.Rep1|mRNA.Expression.WT.Rep2|mRNA.Expression.WT.Rep3")]
 filtered_rows_copy = filtered_rows.copy()
 filtered_rows_copy.loc[:, 'Value'] = pandas.to_numeric(filtered_rows_copy['Value'])
 
@@ -77,3 +79,63 @@ average_WT_mRNA = filtered_rows_copy['Value'].mean()
 
 print("Average mRNA Expression WT:")
 print(average_WT_mRNA)
+
+filtered_rows = df[df.index.str.contains("mRNA.Expression.Mut.Rep1|mRNA.Expression.Mut.Rep2|mRNA.Expression.Mut.Rep3")]
+filtered_rows_copy = filtered_rows.copy()
+filtered_rows_copy.loc[:, 'Value'] = pandas.to_numeric(filtered_rows_copy['Value'])
+
+average_Mut_mRNA = filtered_rows_copy['Value'].mean()
+
+print("Average mRNA Expression Mut:")
+print(average_Mut_mRNA)
+
+Change_mRNA = average_WT_mRNA - average_Mut_mRNA
+print(Change_mRNA)
+
+#the following averages the protein expression for wild type and mutant, saving them as variables and then subtracting the latter from the former andsaving it as the variable Change_Protein
+filtered_rows = df[df.index.str.contains("Protein.Expression.WT.Rep1|Protein.Expression.WT.Rep2|Protein.Expression.WT.Rep3")]
+filtered_rows_copy = filtered_rows.copy()
+filtered_rows_copy.loc[:, 'Value'] = pandas.to_numeric(filtered_rows_copy['Value'])
+
+average_WT_Protein = filtered_rows_copy['Value'].mean()
+
+print("Average Protein Expression WT:")
+print(average_WT_Protein)
+
+filtered_rows = df[df.index.str.contains("Protein.Expression.Mut.Rep1|Protein.Expression.Mut.Rep2|Protein.Expression.Mut.Rep3")]
+filtered_rows_copy = filtered_rows.copy()
+filtered_rows_copy.loc[:, 'Value'] = pandas.to_numeric(filtered_rows_copy['Value'])
+
+average_Mut_Protein = filtered_rows_copy['Value'].mean()
+
+print("Average Protein Expression Mut:")
+print(average_Mut_Protein)
+
+Change_Protein = average_WT_Protein - average_Mut_Protein
+print(Change_Protein)
+
+#the following averages the cell viability for wild type and mutant, saving them as variables and then subtracting the latter from the former andsaving it as the variable Change_CellViability
+filtered_rows = df[df.index.str.contains("CellViability.WT.Rep1|CellViability.WT.Rep2|CellViability.WT.Rep3")]
+filtered_rows_copy = filtered_rows.copy()
+filtered_rows_copy.loc[:, 'Value'] = pandas.to_numeric(filtered_rows_copy['Value'])
+
+average_WT_CellViability = filtered_rows_copy['Value'].mean()
+
+print("Average Cell Viability WT:")
+print(average_WT_CellViability)
+
+filtered_rows = df[df.index.str.contains("CellViability.Mut.Rep1|CellViability.Mut.Rep2|CellViability.Mut.Rep3")]
+filtered_rows_copy = filtered_rows.copy()
+filtered_rows_copy.loc[:, 'Value'] = pandas.to_numeric(filtered_rows_copy['Value'])
+
+average_Mut_CellViability = filtered_rows_copy['Value'].mean()
+
+print("Average Cell Viability Mut:")
+print(average_Mut_CellViability)
+
+Change_CellViability = average_WT_CellViability - average_Mut_CellViability
+print(Change_CellViability)
+
+#We then create a new dictionary for these changes 
+changes_dict = {'Change in mRNA expression': Change_mRNA, 'Change in protein expression': Change_Protein, 'Change in cell viability': Change_CellViability}
+print(changes_dict)
