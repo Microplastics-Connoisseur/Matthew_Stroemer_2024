@@ -137,7 +137,7 @@ Change_CellViability = average_WT_CellViability - average_Mut_CellViability
 print(Change_CellViability)
 
 #We then create a new dictionary for these changes 
-changes_dict = {'Change in mRNA expression': Change_mRNA, 'Change in protein expression': Change_Protein, 'Change in cell viability': Change_CellViability}
+changes_dict = {'Mutation Type': mutation_type, 'Change in mRNA expression': Change_mRNA, 'Change in protein expression': Change_Protein, 'Change in cell viability': Change_CellViability}
 print(changes_dict)
 
 #we convert our new dict "changes_dict" into a new dataframe and specify it with a different name
