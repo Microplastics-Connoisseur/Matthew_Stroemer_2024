@@ -113,3 +113,23 @@ df_changes.index.name = 'Gene Name'
 
 df_changes = df_changes.T
 print(df_changes)
+
+import matplotlib.pyplot as plt 
+import matplotlib as mpl
+import seaborn as sbn
+
+plot_df = pd.DataFrame(df_changes)
+plot_df.head()
+
+substitution_counts = plot_df.loc["Mutation Type"].str.count("Substitution")
+total_substituions = substitution_counts.sum()
+
+ins_or_subs_counts = plot_df.loc["Mutation Type"].str.count("Complex mutation insertion and/or substitution")
+total_ins_or_subs = ins_or_subs_counts.sum()
+
+dels_or_subs_counts = plot_df.loc["Mutation Type"].str.count("Complex mutation Deletion and/or substitution")
+total_dels_or_subs = dels_or_subs_counts.sum()
+
+mutations_dict = {"Substitutions": total_substitutions, "Insertions":total_ins_or_subs, "Deletions": total_dels_or_subs}
+df_mutations = pd.DataFrame.from_dict(mutations_dict, orient='index', columns=['Mutation Type'])
+print(df_mutations)
