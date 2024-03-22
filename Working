@@ -221,7 +221,25 @@ for file_path in glob.glob(folder_path + "/*.txt"):
     WildType_Sequence, Mutant_Sequence = data_dict['WildType.Sequence'], data_dict['Mutant.Sequence']
     
     # Find mutation type
+    def find_mutation_type(WildType_Sequence, Mutant_Sequence):
+        if len(WildType_Sequence) == len(Mutant_Sequence):
+            if WildType_Sequence == Mutant_Sequence:
+                return "No mutation"
+            else:
+                return "Substitution"
+        elif len(WildType_Sequence) < len(Mutant_Sequence):
+            if Mutant_Sequence.startswith(WildType_Sequence):
+                return "Insertion"
+            else:
+                return "Complex mutation (insertion and/or substitution)"
+        else: 
+            if WildType_Sequence.startswith(Mutant_Sequence):
+                return "Deletion"
+            else:
+                return "Complex mutation (deletion and/or substitution)"
+        
     mutation_type = find_mutation_type(WildType_Sequence, Mutant_Sequence)
+  
     
     # Update changes_dict with mutation type for current gene
     changes_dict[gene_name] = mutation_type
@@ -229,6 +247,8 @@ for file_path in glob.glob(folder_path + "/*.txt"):
 # Convert changes_dict to DataFrame
 df_changes = pd.DataFrame.from_dict(changes_dict, orient='index', columns=['Mutation Type'])
 df_changes.index.name = 'Gene Name'
+
+df_changes = df_changes.T
 
 print(df_changes)
 
