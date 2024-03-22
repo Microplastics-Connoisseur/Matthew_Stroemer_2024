@@ -1,0 +1,115 @@
+import pandas as pd
+import numpy as np
+import glob
+
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+
+data_frames = []
+changes_dict = {}
+
+folder_path = r"C:\Users\t09ms23\Desktop\BT5511 Files"
+
+for file_path in glob.glob(folder_path + "/*.txt"):
+    data_dict = {}
+    with open(file_path, 'r') as file:
+        # Read the first line containing keys
+        keys_line = file.readline().strip().split()
+      
+
+        # Read the second line containing values
+        values_line = file.readline().strip().split()
+      
+
+        # Ensure the number of keys matches the number of values
+        if len(keys_line) == len(values_line):
+            # Combine keys and values into dictionary
+            for key, value in zip(keys_line, values_line):
+                data_dict[key.strip()] = value.strip()
+        else:
+            print("Error: Number of keys does not match number of values.")
+
+    # Convert the dictionary to a DataFrame
+    df = pd.DataFrame.from_dict(data_dict, orient='index', columns=['Value'])
+    df.index.name = 'Key'
+
+    # Extract gene name from the DataFrame
+    gene_name = data_dict.get('Gene', '')
+
+    # Rename the column to the gene name
+    df.columns = [gene_name]
+    
+    data_frames.append(df)
+    
+    # Slice the rows containing the two sequences
+    sliced_rows = df[1:3]
+    
+    # Select sequences from the dict and create them as variables
+    WildType_Sequence, Mutant_Sequence = data_dict.get('WildType.Sequence', ''), data_dict.get('Mutant.Sequence', '')
+    
+    # Find mutation type
+    def find_mutation_type(WildType_Sequence, Mutant_Sequence):
+        if len(WildType_Sequence) == len(Mutant_Sequence):
+            if WildType_Sequence == Mutant_Sequence:
+                return "No mutation"
+            else:
+                return "Substitution"
+        elif len(WildType_Sequence) < len(Mutant_Sequence):
+            if Mutant_Sequence.startswith(WildType_Sequence):
+                return "Insertion"
+            else:
+                return "Complex mutation (insertion and/or substitution)"
+        else: 
+            if WildType_Sequence.startswith(Mutant_Sequence):
+                return "Deletion"
+            else:
+                return "Complex mutation (deletion and/or substitution)"
+        
+    mutation_type = find_mutation_type(WildType_Sequence, Mutant_Sequence)
+  
+    # Update changes_dict with mutation type for current gene
+    changes_dict[gene_name] = {mutation_type}
+    
+    avg_WT_rep1 = float(data_dict.get("mRNA.Expression.WT.Rep1", 0))
+    avg_WT_rep2 = float(data_dict.get("mRNA.Expression.WT.Rep2", 0))
+    avg_WT_rep3 = float(data_dict.get("mRNA.Expression.WT.Rep3", 0))
+    avg_Mut_rep1 = float(data_dict.get("mRNA.Expression.Mut.Rep1", 0))
+    avg_Mut_rep2 = float(data_dict.get("mRNA.Expression.Mut.Rep2", 0))
+    avg_Mut_rep3 = float(data_dict.get("mRNA.Expression.Mut.Rep3", 0))
+    
+    
+    
+    average_WT_mRNA = (avg_WT_rep1 + avg_WT_rep2 + avg_WT_rep3) / 3
+    average_Mut_mRNA = (avg_Mut_rep1 + avg_Mut_rep2 + avg_Mut_rep3) / 3
+    change_in_mRNA = average_WT_mRNA - average_Mut_mRNA
+    
+    avg_WT_rep1 = float(data_dict.get("Protein.Expression.WT.Rep1", 0))
+    avg_WT_rep2 = float(data_dict.get("Protein.Expression.Rep2", 0))
+    avg_WT_rep3 = float(data_dict.get("Protein.Expression.WT.Rep3", 0))
+    avg_Mut_rep1 = float(data_dict.get("Protein.Expression.WT.Rep3", 0))
+    avg_Mut_rep2 = float(data_dict.get("Protein.Expression.Mut.Rep2", 0))
+    avg_Mut_rep3 = float(data_dict.get("Protein.Expression.Mut.Rep3", 0))
+    
+    average_WT_Protein = (avg_WT_rep1 + avg_WT_rep2 + avg_WT_rep3) / 3
+    average_Mut_Protein = (avg_Mut_rep1 + avg_Mut_rep2 + avg_Mut_rep3) / 3
+    change_in_Protein = average_WT_Protein - average_Mut_Protein
+    
+    avg_WT_rep1 = float(data_dict.get("CellViability.WT.Rep1", 0))
+    avg_WT_rep2 = float(data_dict.get("CellViability.Rep2", 0))
+    avg_WT_rep3 = float(data_dict.get("CellViability.WT.Rep3", 0))
+    avg_Mut_rep1 = float(data_dict.get("CellViability.WT.Rep3", 0))
+    avg_Mut_rep2 = float(data_dict.get("CellViability.Mut.Rep2", 0))
+    avg_Mut_rep3 = float(data_dict.get("CellViability.Mut.Rep3", 0))
+    
+    average_WT_CellViability = (avg_WT_rep1 + avg_WT_rep2 + avg_WT_rep3) / 3
+    average_Mut_CellViability = (avg_Mut_rep1 + avg_Mut_rep2 + avg_Mut_rep3) / 3
+    change_in_CellViability = average_WT_CellViability - average_Mut_CellViability
+    
+    
+    changes_dict[gene_name] = {'Mutation Type': mutation_type, 'Change in mRNA Expression': change_in_mRNA, 'Change in protein': change_in_Protein, 'Change in cell viability': change_in_CellViability}
+
+df_changes = pd.DataFrame.from_dict(changes_dict, orient='index', columns=['Mutation Type', 'Change in mRNA Expression', 'Change in protein', 'Change in cell viability'])
+df_changes.index.name = 'Gene Name'
+
+df_changes = df_changes.T
+print(df_changes)
