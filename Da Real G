@@ -155,3 +155,10 @@ ax.set_ylabel('Count')
 ax.set_xlabel('Mutation Type')
 
 plt.show()
+
+df = df_changes.T
+
+sbn.boxplot(df, x="Mutation Type", y="Change in mRNA Expression", hue="Mutation Type")
+plt.yscale('symlog')
+
+plt.show()
