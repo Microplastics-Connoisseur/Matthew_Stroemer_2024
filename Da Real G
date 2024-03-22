@@ -133,3 +133,27 @@ total_dels_or_subs = dels_or_subs_counts.sum()
 mutations_dict = {"Substitutions": total_substitutions, "Insertions":total_ins_or_subs, "Deletions": total_dels_or_subs}
 df_mutations = pd.DataFrame.from_dict(mutations_dict, orient='index', columns=['Mutation Type'])
 print(df_mutations)
+
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import seaborn as sbn
+
+bar_data = {}
+
+mutation_counts = df_mutations["Number"].value_counts()
+
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import seaborn as sbn
+
+bar_data = {}
+
+mutation_counts = df_mutations["Number"].value_counts()
+
+fig, ax = plt.subplots(figsize=(8, 6))
+ax.bar(mutation_counts.index, mutation_counts.values) 
+ax.set_ylabel('Count')
+ax.set_xlabel('Mutation Type')
+
+plt.show()
+plt.show()
