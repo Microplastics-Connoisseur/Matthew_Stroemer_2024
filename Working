@@ -171,4 +171,64 @@ print(data_dict)
 combined_df = pandas.concat(data_dict, keys=data_dict.keys())
 print(combined_df)
 #######################################################################
+#This manages to iterate over the combined dataframe with the gene name as the column, finding the mutation type and then storing and appending it into the the new dict 
+#We can then create a dataframe of this with each gene and it's mutation type
+import pandas as pd
+import numpy as np
+import glob
+
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+
+data_frames = []
+changes_dict = {}
+
+folder_path = r"C:\Users\t09ms23\Desktop\BT5511 Files"
+
+for file_path in glob.glob(folder_path + "/*.txt"):
+    data_dict = {}
+    with open(file_path, 'r') as file:
+        # Read the first line containing keys
+        keys_line = file.readline().strip().split()
+
+        # Read the second line containing values
+        values_line = file.readline().strip().split()
+
+        # Ensure the number of keys matches the number of values
+        if len(keys_line) == len(values_line):
+            # Combine keys and values into dictionary
+            for key, value in zip(keys_line, values_line):
+                data_dict[key.strip()] = value.strip()
+        else:
+            print("Error: Number of keys does not match number of values.")
+
+    # Convert the dictionary to a DataFrame
+    df = pd.DataFrame.from_dict(data_dict, orient='index', columns=['Value'])
+    df.index.name = 'Key'
+
+    # Extract gene name from the DataFrame
+    gene_name = df.loc['Gene', 'Value']
+
+    # Rename the column to the gene name
+    df.columns = [gene_name]
+    
+    data_frames.append(df)
+    
+    # Slice the rows containing the two sequences
+    sliced_rows = df[1:3]
+    
+    # Select sequences from the dict and create them as variables
+    WildType_Sequence, Mutant_Sequence = data_dict['WildType.Sequence'], data_dict['Mutant.Sequence']
+    
+    # Find mutation type
+    mutation_type = find_mutation_type(WildType_Sequence, Mutant_Sequence)
+    
+    # Update changes_dict with mutation type for current gene
+    changes_dict[gene_name] = mutation_type
+
+# Convert changes_dict to DataFrame
+df_changes = pd.DataFrame.from_dict(changes_dict, orient='index', columns=['Mutation Type'])
+df_changes.index.name = 'Gene Name'
+
+print(df_changes)
 
