@@ -162,3 +162,12 @@ sbn.boxplot(df, x="Mutation Type", y="Change in mRNA Expression", hue="Mutation 
 plt.yscale('symlog')
 
 plt.show()
+
+sbn.boxplot(df, x="Mutation Type", y="Change in protein", hue="Mutation Type")
+plt.yscale('symlog')
+
+plt.show()
+
+sbn.kdeplot(df, x="Change in cell viability", hue="Mutation Type")
+
+plt.show()
