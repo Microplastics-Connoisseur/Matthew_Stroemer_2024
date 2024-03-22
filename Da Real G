@@ -58,12 +58,12 @@ for file_path in glob.glob(folder_path + "/*.txt"):
             if Mutant_Sequence.startswith(WildType_Sequence):
                 return "Insertion"
             else:
-                return "Complex mutation insertion and/or substitution"
+                return "Insertion"
         else: 
             if WildType_Sequence.startswith(Mutant_Sequence):
                 return "Deletion"
             else:
-                return "Complex mutation Deletion and/or substitution"
+                return "Deletion"
         
     mutation_type = find_mutation_type(WildType_Sequence, Mutant_Sequence)
   
@@ -124,13 +124,13 @@ plot_df.head()
 substitution_counts = plot_df.loc["Mutation Type"].str.count("Substitution")
 total_substitutions = substitution_counts.sum()
 
-ins_or_subs_counts = plot_df.loc["Mutation Type"].str.count("Complex mutation insertion and/or substitution")
-total_ins_or_subs = ins_or_subs_counts.sum()
+Insertion_counts = plot_df.loc["Mutation Type"].str.count("Insertion")
+total_Insertions = Insertion_counts.sum()
 
-dels_or_subs_counts = plot_df.loc["Mutation Type"].str.count("Complex mutation Deletion and/or substitution")
-total_dels_or_subs = dels_or_subs_counts.sum()
+Deletion_counts = plot_df.loc["Mutation Type"].str.count("Deletion")
+total_Deletions = Deletion_counts.sum()
 
-mutations_dict = {"Substitutions": total_substitutions, "Insertions":total_ins_or_subs, "Deletions": total_dels_or_subs}
+mutations_dict = {"Substitutions": total_substitutions, "Insertions":total_Insertions, "Deletions": total_Deletions}
 df_mutations = pd.DataFrame.from_dict(mutations_dict, orient='index', columns=['Mutation Type'])
 print(df_mutations)
 
