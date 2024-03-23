@@ -202,3 +202,41 @@ sbn.scatterplot(filtered_shorter_df, x="Change in mRNA Expression", y="Change in
 ax = plt.gca()
 ax.set(xscale='symlog', yscale='symlog')
 plt.show()
+
+#as our final piece de resistance, we will combine data from each category for every gene in the filtered_short list 
+#and then plot it on a 3d graph allowing us to show each of the three categories
+#the graph is then automatically saved to the same folder our files are store in as a png 
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import pandas as pd
+from matplotlib.ticker import MaxNLocator
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+x_data = filtered_shorter_df['Change in mRNA Expression']
+y_data = filtered_shorter_df['Change in protein']
+z_data = filtered_shorter_df['Change in cell viability']
+categories = filtered_shorter_df['Gene Name'].unique()
+
+for i, category in enumerate(categories):
+    category_data = filtered_shorter_df[filtered_shorter_df['Gene Name'] == category]
+    ax.scatter(category_data['Change in mRNA Expression'], 
+               category_data['Change in protein'], 
+               category_data['Change in cell viability'], 
+               label=category, s=100)
+
+ax.xaxis.set_major_locator(MaxNLocator(nbins=4))
+
+ax.set_xlabel('Change in mRNA Expression')
+ax.set_ylabel('Change in protein')
+ax.set_zlabel('Change in cell viability')
+ax.set_title('Five Influential Mutations')
+
+# Adding legend
+plt.legend()
+
+plt.savefig(r'C:\Users\t09ms23\Desktop\BT5511 Files\Five Influential Mutations')
+
+plt.show()
