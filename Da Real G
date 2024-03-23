@@ -186,19 +186,19 @@ shorter_df = pd.concat([top_ascending_mRNA, top_descending_mRNA, top_ascending_p
 shorter_df.reset_index(inplace=True)
 
 # Select the desired columns
-filtered_shorter_df = shorter_df[['Gene Name', 'Change in mRNA Expression', 'Change in protein' ]]
+filtered_shorter_df = shorter_df[['Gene Name', 'Change in mRNA Expression', 'Change in protein', 'Change in cell viability' ]]
 print(filtered_shorter_df)
 
 #we can then use this top and bottom 3 to create easier to read scatterplots
+sbn.scatterplot(filtered_shorter_df, x="Change in cell viability", y="Change in mRNA Expression", hue="Gene Name", s=100)
+ax = plt.gca()
+ax.set(xscale='symlog', yscale='symlog')
+plt.show()
+sbn.scatterplot(filtered_shorter_df, x="Change in cell viability", y="Change in protein", hue="Gene Name", s=100)
+ax = plt.gca()
+ax.set(xscale='symlog', yscale='symlog')
+plt.show()
 sbn.scatterplot(filtered_shorter_df, x="Change in mRNA Expression", y="Change in protein", hue="Gene Name", s=100)
-ax = plt.gca()
-ax.set(xscale='symlog', yscale='symlog')
-plt.show()
-sbn.scatterplot(filtered_shorter_df, x="Change in protein", y="Change in cell viability", hue="Gene Name", s=100)
-ax = plt.gca()
-ax.set(xscale='symlog', yscale='symlog')
-plt.show()
-sbn.scatterplot(filtered_shorter_df, x="Change in mRNA Expression", y="Change in cell viability", hue="Gene Name", s=100)
 ax = plt.gca()
 ax.set(xscale='symlog', yscale='symlog')
 plt.show()
