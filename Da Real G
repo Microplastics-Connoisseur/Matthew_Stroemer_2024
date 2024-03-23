@@ -171,3 +171,20 @@ plt.show()
 sbn.kdeplot(df, x="Change in cell viability", hue="Mutation Type")
 
 plt.show()
+#we then sort the dataframe by the biggest increases and decreases, storing the top and bottom 2 to create an easier dataframe
+top_ascending_mRNA = df.sort_values(by='Change in mRNA Expression', ascending=True).head(2)
+top_descending_mRNA = df.sort_values(by='Change in mRNA Expression', ascending=False).head(2)
+top_ascending_protein = df.sort_values(by='Change in protein', ascending=True).head(2)
+top_descending_protein = df.sort_values(by='Change in protein', ascending=False).head(2)
+top_ascending_cellviability = df.sort_values(by='Change in cell viability', ascending=True).head(2)
+top_descending_cellviability = df.sort_values(by='Change in cell viability', ascending=False).head(2)
+
+
+shorter_df = pd.concat([top_ascending_mRNA, top_descending_mRNA, top_ascending_protein, top_descending_protein, top_ascending_cellviability, top_descending_cellviability])
+
+# Reset the index to make 'Gene Name' a regular column
+shorter_df.reset_index(inplace=True)
+
+# Select the desired columns
+filtered_shorter_df = shorter_df[['Gene Name', 'Change in mRNA Expression', 'Change in protein' ]]
+print(filtered_shorter_df)
