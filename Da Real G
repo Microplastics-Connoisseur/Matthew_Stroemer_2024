@@ -188,3 +188,9 @@ shorter_df.reset_index(inplace=True)
 # Select the desired columns
 filtered_shorter_df = shorter_df[['Gene Name', 'Change in mRNA Expression', 'Change in protein' ]]
 print(filtered_shorter_df)
+
+#we can then use this top and bottom 3 to create easier to read scatterplots
+sbn.scatterplot(filtered_shorter_df, x="Change in mRNA Expression", y="Change in protein", hue="Gene Name", s=100)
+ax = plt.gca()
+ax.set(xscale='symlog', yscale='symlog')
+plt.show()
